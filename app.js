@@ -7,6 +7,8 @@ const cells = 3
 const width = 600
 const height = 600
 
+const unitLength = width / cells
+
 //create the properties
 const engine = Engine.create()
 const { world } = engine
@@ -120,10 +122,60 @@ const verticals = Array(cells)
 
         iterateOverCell(nextRow, nextColumn)
     }
-
-    //visit that next cell
 }
 
-        
 
     iterateOverCell(startRow, startColumn)
+
+    //iterate over arrays
+    horizontals.forEach((row, rowIndex) => {
+        row.forEach((open, columnIndex) => {
+            if (open) {
+                return
+            }
+
+            const wall = Bodies.rectangle(
+                columnIndex * unitLength + unitLength / 2, 
+                rowIndex * unitLength + unitLength,
+                unitLength,
+                10,
+                {
+                    isStatic: true
+                }
+            )
+            //add shape
+            World.add(world, wall)
+        })  
+    })
+
+    verticals.forEach((row, rowIndex) => {
+        row.forEach((open, columnIndex) => {
+            if (open) {
+                return
+            }
+
+            const wall = Bodies.rectangle(
+                columnIndex * unitLength + unitLength, 
+                rowIndex * unitLength + unitLength / 2,
+                10,
+                unitLength,
+                {
+                    isStatic: true
+                }
+            )
+            //add shape
+            World.add(world, wall)
+        })  
+    })
+
+    //create a goal for the Maze
+    const goal = Bodies.rectangle(
+        width - unitLength / 2,
+        height - unitLength / 2,
+        unitLength * .7,
+        unitLength * .7,
+        {
+            isStatic: true
+        }
+    )
+    World.add(world, goal)
