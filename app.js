@@ -81,6 +81,7 @@ const verticals = Array(cells)
         }
         //mark this cell as visited and change value to true
         grid[row][column] = true
+
         //assemble randomly-ordered list of neighbors
         const neighbors = shuffle([
             [row - 1, column, 'up'],
@@ -92,19 +93,37 @@ const verticals = Array(cells)
         //for each neighbor, see if neighbor is non-existent/out of range
         for (let neighbor of neighbors) {
             const [nextRow, nextColumn, direction] = neighbor
-        }
 
-        if (nextRow < 0 || nextRow >= cells || nextColumn < 0 || nextColumn >= cells) {
-            continue
-        }
-            
-        //if we have visited that neighbor, continue to the next neighbor
+            if (
+                nextRow < 0 || 
+                nextRow >= cells || 
+                nextColumn < 0 || 
+                nextColumn >= cells) {
+                continue
+            }
+
+            //if we have visited that neighbor, continue to the next neighbor
         if (grid[nextRow][nextColumn]) {
             continue
         }
-        //remove a wall from the horizontals or verticals array
-
-
-        //visit that next cell
     
+        //remove a wall from the horizontals or verticals array
+        if (direction === 'left') {
+            verticals[row][column - 1] = true
+        } else if (direction === 'right') {
+            verticals[row][column] = true
+        } else if (direction === 'up') {
+            horizontals[row-1][column] = true
+        } else if (direction === 'down') {
+            horizontals[row][column] = true
+        }
+
+        iterateOverCell(nextRow, nextColumn)
+    }
+
+    //visit that next cell
+}
+
+        
+
     iterateOverCell(startRow, startColumn)
