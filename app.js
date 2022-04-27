@@ -1,7 +1,10 @@
 //allow Matter js objects to work in our app by destructuring
-const { Engine, Render, Runner, World, Bodies, MouseConstraint, Mouse } = Matter
+const { Engine, Render, Runner, World, Bodies } = Matter
 
-const width = 800
+//create configuration variables for maze values
+const cells = 3
+
+const width = 600
 const height = 600
 
 //create the properties
@@ -21,32 +24,87 @@ const render = Render.create({
 Render.run(render)
 Runner.run(Runner.create(), engine)
 
-//add click and drag functionality
-World.add(world, MouseConstraint.create(engine, { 
-    mouse: Mouse.create(render.canvas)
-}))
-
 //create walls so the shapes do not fall off
 const walls = [
-    Bodies.rectangle(400, 0, 800, 40, { isStatic: true }),
-    Bodies.rectangle(400, 600, 800, 40, { isStatic: true }),
-    Bodies.rectangle(0, 300, 40, 600, { isStatic: true }),
-    Bodies.rectangle(800, 300, 40, 600, { isStatic: true })
+    Bodies.rectangle(width/2, 0, width, 40, { isStatic: true }),
+    Bodies.rectangle(width/2, height, width, 40, { isStatic: true }),
+    Bodies.rectangle(0, height/2, 40, height, { isStatic: true }),
+    Bodies.rectangle(width, height/2, 40, height, { isStatic: true })
 ]
 
 World.add(world, walls)
 
-//Add some shapes and make them show up randomly
-for ( let i = 0; i < 50; i++) {
-    if (Math.random() > 0.5) {
-        World.add(
-            world, Bodies.rectangle(Math.random() * width, Math.random() * height, 50, 50))
-    } else {
-        World.add(
-            world, Bodies.circle(Math.random() * width, Math.random() * height, 35, {
-                render: {
-                    fillStyle: "pink"
-                }
-            })
-        )}
+//randomly shuffle grid elements (arrays)
+const shuffle = (arr) => {
+    let counter = arr.length
+
+    while (counter > 0) {
+        const index = Math.floor(Math.random() * counter)
+
+        counter--
+
+       //swap elements
+        const temp = arr[counter]
+        arr[counter] = arr[index]
+        arr[index] = temp
+    }
+
+    return arr
 }
+
+//Use map array method to generate our maze grids (rows first)
+const grid = Array(cells)
+    .fill(null)
+    //add a value for each column
+    .map(() => Array(cells).fill(false))
+
+//Generate maze verticals and horizontals
+const verticals = Array(cells)
+    .fill(null)
+    .map(() => Array(cells - 1).fill(false))
+
+    const horizontals = Array(cells - 1)
+    .fill(null)
+    .map(() => Array(cells).fill(false))
+
+    // console.log(horizontals)
+
+    //Create the maze pattern by first picking a random starting cells
+    const startRow = Math.floor(Math.random() * cells)
+    const startColumn = Math.floor(Math.random() * cells)
+
+    // Create a function that iterates over our maze
+    const iterateOverCell = (row, column) => {
+        //if I have visited a cell at [row, column] then return
+        if (grid[row][column]) {
+            return
+        }
+        //mark this cell as visited and change value to true
+        grid[row][column] = true
+        //assemble randomly-ordered list of neighbors
+        const neighbors = shuffle([
+            [row - 1, column, 'up'],
+            [row,  column + 1, 'right'],
+            [row + 1, column, 'down'],
+            [row, column - 1, 'left']
+        ]);
+        console.log(neighbors)
+        //for each neighbor, see if neighbor is non-existent/out of range
+        for (let neighbor of neighbors) {
+            const [nextRow, nextColumn, direction] = neighbor
+        }
+
+        if (nextRow < 0 || nextRow >= cells || nextColumn < 0 || nextColumn >= cells) {
+            continue
+        }
+            
+        //if we have visited that neighbor, continue to the next neighbor
+        if (grid[nextRow][nextColumn]) {
+            continue
+        }
+        //remove a wall from the horizontals or verticals array
+
+
+        //visit that next cell
+    
+    iterateOverCell(startRow, startColumn)
