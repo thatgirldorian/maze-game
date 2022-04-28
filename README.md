@@ -7,7 +7,7 @@ This is an application that allows you to play a cool maze game. When you move t
 - S - move right
 - D - go down
 
-I also switched up the canvas colors and scaled it to fit on any screen size. There are animations as well, which I borowed from the Matter JS library. 
+I also switched up the canvas colors and scaled it to fit on any screen size. There are animations as well, which I borowed from the Matter JS library. I've played this a couple of times and I'm pretty bad at it haha. :)
 
 
 <h3>Technology used:</h3>
