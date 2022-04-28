@@ -2,8 +2,8 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
 //create configuration variables for maze values
-const cellsHorizontal = 10
-const cellsVertical = 8
+const cellsHorizontal = 12
+const cellsVertical = 10
 
 const width = window.innerWidth
 const height = window.innerHeight
