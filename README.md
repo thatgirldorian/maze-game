@@ -22,8 +22,9 @@ I also switched up the canvas colors and scaled it to fit on any screen size. Th
 <h3>Link to site:</h3>
 https://maze-game7.netlify.app/
 
-
-
 <h3>Screenshot:</h3>
+
+<img width="1536" alt="Screen Shot 2022-04-29 at 12 10 07 AM" src="https://user-images.githubusercontent.com/40691059/165837293-0842f5e0-31c8-4e31-83b8-30abc925bacf.png">
+
 
 
