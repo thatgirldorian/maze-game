@@ -1,13 +1,13 @@
 # maze-game
  
-This is an application that allows you to play a maze game. I added keypress controls so you can play with the WASD keys. 
+This is an application that allows you to play a cool maze game. When you move the ball to the goal, you win! I added keypress controls so you can play with the WASD keys. 
 
 - W - move up
 - A - go left
 - S - move right
 - D - go down
 
-I also switched up the canvas colors, scaled it to fit in any screen size and added a goal. There are animations as well, which I borowed from the Matter JS library. 
+I also switched up the canvas colors and scaled it to fit on any screen size. There are animations as well, which I borowed from the Matter JS library. 
 
 
 <h3>Technology used:</h3>
@@ -20,6 +20,7 @@ I also switched up the canvas colors, scaled it to fit in any screen size and ad
 - Netlify
 
 <h3>Link to site:</h3>
+https://maze-game7.netlify.app/
 
 
 
