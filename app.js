@@ -2,8 +2,8 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
 //create configuration variables for maze values
-const cellsHorizontal = 12
-const cellsVertical = 10
+const cellsHorizontal = 10
+const cellsVertical = 8
 
 const width = window.innerWidth
 const height = window.innerHeight
@@ -247,6 +247,8 @@ const verticals = Array(cellsVertical)
                 labels.includes(collision.bodyB.label)
         ) {
                 //add a way to let the user know that they won
+            document.querySelector('.winner').classList.remove('hidden')
+
                 world.gravity.y = 1
                 world.bodies.forEach(body => {
                     if (body.label === 'wall') { 

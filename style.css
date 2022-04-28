@@ -3,24 +3,28 @@ body {
     margin: 0;
 }
 
-canvas {
-    
+.hidden {
+    display: none !important;
 }
 
-header {
-    text-align: center;
+h1 {
+    color: black !important;
+    font-size: 64px;
 }
 
-.header-info {
-    display: inline-block;
+.winner {
+    display: flex;
+    font-family: 'Courier New', Courier, monospace;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+
 }
 
-p {
-    margin-left: 100px;
-    text-align: center;
-}
-
-button {
+/* button {
     margin-left: 100px;
     margin-bottom: 20px;
     box-shadow: 0px 10px 14px -7px #276873;
@@ -37,4 +41,4 @@ button {
 	padding :10px 20px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #3d768a;
-}
+} */
