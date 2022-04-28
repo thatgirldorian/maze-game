@@ -2,7 +2,7 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
 //create configuration variables for maze values
-const cells = 3
+const cells = 6
 
 const width = 600
 const height = 600
@@ -240,3 +240,8 @@ const verticals = Array(cells)
         }
         })
     })
+
+    //refresh game when Refresh button is clicked on
+    document.querySelector('#refresh-btn').onclick = () => {
+        window.location.reload()
+    }
