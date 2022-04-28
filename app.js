@@ -2,7 +2,7 @@
 const { Engine, Render, Runner, World, Bodies } = Matter
 
 //create configuration variables for maze values
-const cells = 3
+const cells = 15
 
 const width = 600
 const height = 600
@@ -26,12 +26,12 @@ const render = Render.create({
 Render.run(render)
 Runner.run(Runner.create(), engine)
 
-//create walls so the shapes do not fall off
+//create walls of our maze so the shapes do not fall off
 const walls = [
-    Bodies.rectangle(width/2, 0, width, 40, { isStatic: true }),
-    Bodies.rectangle(width/2, height, width, 40, { isStatic: true }),
-    Bodies.rectangle(0, height/2, 40, height, { isStatic: true }),
-    Bodies.rectangle(width, height/2, 40, height, { isStatic: true })
+    Bodies.rectangle(width/2, 0, width, 2, { isStatic: true }),
+    Bodies.rectangle(width/2, height, width, 2, { isStatic: true }),
+    Bodies.rectangle(0, height/2, 2, height, { isStatic: true }),
+    Bodies.rectangle(width, height/2, 2, height, { isStatic: true })
 ]
 
 World.add(world, walls)
@@ -179,3 +179,30 @@ const verticals = Array(cells)
         }
     )
     World.add(world, goal)
+
+    //create a ball for playing through the Maze
+    const ball = Bodies.circle(
+        unitLength / 2, 
+        unitLength / 2, 
+        unitLength / 4
+    )
+    World.add(world, ball)
+
+    //handle keypress
+    document.addEventListener('keydown', event => {
+        if (event.code === 'KeyW') {
+            console.log('move ball up')
+        }
+
+        if (event.code === 'KeyA') {
+            console.log('move ball left')
+        }
+
+        if (event.code === 'KeyD') {
+            console.log('move ball right')
+        }
+
+        if (event.code === 'KeyS') {
+            console.log('move ball down')
+        }
+    })
