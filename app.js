@@ -1,5 +1,5 @@
 //allow Matter js objects to work in our app by destructuring
-const { Engine, Render, Runner, World, Bodies } = Matter
+const { Engine, Render, Runner, World, Bodies, Body } = Matter
 
 //create configuration variables for maze values
 const cells = 15
@@ -188,21 +188,27 @@ const verticals = Array(cells)
     )
     World.add(world, ball)
 
-    //handle keypress
+    //handle keypress and ball direction changes
     document.addEventListener('keydown', event => {
-        if (event.code === 'KeyW') {
-            console.log('move ball up')
+
+        //get the velocity of the ball
+        const { x, y } = ball.velocity
+
+        console.log(x, y)
+
+        if (event.code === 'KeyW') { 
+            Body.setVelocity(ball, { x, y: y - 5})
         }
 
         if (event.code === 'KeyA') {
-            console.log('move ball left')
+            Body.setVelocity(ball, { x: x - 5, y})
         }
 
         if (event.code === 'KeyD') {
-            console.log('move ball right')
+            Body.setVelocity(ball, { x, y: y + 5})
         }
 
         if (event.code === 'KeyS') {
-            console.log('move ball down')
+            Body.setVelocity(ball, { x: x + 5, y})
         }
     })
