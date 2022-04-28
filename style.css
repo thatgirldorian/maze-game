@@ -4,7 +4,7 @@ body {
 }
 
 canvas {
-    margin-left: 100px;
+    
 }
 
 header {
@@ -17,6 +17,7 @@ header {
 
 p {
     margin-left: 100px;
+    text-align: center;
 }
 
 button {

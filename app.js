@@ -2,12 +2,14 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
 //create configuration variables for maze values
-const cells = 6
+const cellsHorizontal = 12
+const cellsVertical = 10
 
-const width = 600
-const height = 600
+const width = window.innerWidth
+const height = window.innerHeight
 
-const unitLength = width / cells
+const unitLengthX = width / cellsHorizontal
+const unitLengthY = width / cellsVertical
 
 //create the properties
 const engine = Engine.create()
@@ -21,7 +23,8 @@ const render = Render.create({
     options: {
         wireframes: false,
         width: width,
-        height: height
+        height: height,
+        background: 'white'
     }
 })
 
@@ -58,25 +61,25 @@ const shuffle = (arr) => {
 }
 
 //Use map array method to generate our maze grids (rows first)
-const grid = Array(cells)
+const grid = Array(cellsVertical)
     .fill(null)
     //add a value for each column
-    .map(() => Array(cells).fill(false))
+    .map(() => Array(cellsHorizontal).fill(false))
 
 //Generate maze verticals and horizontals
-const verticals = Array(cells)
+const verticals = Array(cellsVertical)
     .fill(null)
-    .map(() => Array(cells - 1).fill(false))
+    .map(() => Array(cellsHorizontal - 1).fill(false))
 
-    const horizontals = Array(cells - 1)
+    const horizontals = Array(cellsVertical - 1)
     .fill(null)
-    .map(() => Array(cells).fill(false))
+    .map(() => Array(cellsHorizontal).fill(false))
 
     // console.log(horizontals)
 
     //Create the maze pattern by first picking a random starting cells
-    const startRow = Math.floor(Math.random() * cells)
-    const startColumn = Math.floor(Math.random() * cells)
+    const startRow = Math.floor(Math.random() * cellsVertical)
+    const startColumn = Math.floor(Math.random() * cellsHorizontal)
 
     // Create a function that iterates over our maze
     const iterateOverCell = (row, column) => {
@@ -101,9 +104,9 @@ const verticals = Array(cells)
 
             if (
                 nextRow < 0 || 
-                nextRow >= cells || 
+                nextRow >= cellsVertical || 
                 nextColumn < 0 || 
-                nextColumn >= cells) {
+                nextColumn >= cellsHorizontal) {
                 continue
             }
 
@@ -138,13 +141,16 @@ const verticals = Array(cells)
             }
 
             const wall = Bodies.rectangle(
-                columnIndex * unitLength + unitLength / 2, 
-                rowIndex * unitLength + unitLength,
-                unitLength,
+                columnIndex * unitLengthX + unitLengthX / 2, 
+                rowIndex * unitLengthY + unitLengthY,
+                unitLengthX,
                 5,
                 {
                     label: 'wall',
-                    isStatic: true
+                    isStatic: true,
+                    render: {
+                        fillStyle: '#82A284'
+                    }
                 }
             )
             //add shape
@@ -159,13 +165,16 @@ const verticals = Array(cells)
             }
 
             const wall = Bodies.rectangle(
-                columnIndex * unitLength + unitLength, 
-                rowIndex * unitLength + unitLength / 2,
+                columnIndex * unitLengthX + unitLengthX, 
+                rowIndex * unitLengthY + unitLengthY / 2,
                 5,
-                unitLength,
+                unitLengthY,
                 {
                     label: 'wall',
-                    isStatic: true
+                    isStatic: true,
+                    render: {
+                        fillStyle: '#82A284'
+                    }
                 }
             )
             //add shape
@@ -175,24 +184,31 @@ const verticals = Array(cells)
 
     //create a goal for the Maze
     const goal = Bodies.rectangle(
-        width - unitLength / 2,
-        height - unitLength / 2,
-        unitLength * .7,
-        unitLength * .7,
+        width - unitLengthX / 2,
+        height - unitLengthY / 2,
+        unitLengthX * .7,
+        unitLengthY * .7,
         {
             label: "goal",
-            isStatic: true
+            isStatic: true,
+            render: {
+                fillStyle: '#446A46'
+            }
         }
     )
     World.add(world, goal)
 
     //create a ball for playing through the Maze
+    ballRadius = Math.min(unitLengthX, unitLengthY) / 4
     const ball = Bodies.circle(
-        unitLength / 2, 
-        unitLength / 2, 
-        unitLength / 4, 
+        unitLengthX / 2, 
+        unitLengthY / 2, 
+        ballRadius, 
         {
-            label: "ball"
+            label: "ball",
+            render: {
+                fillStyle: '#FFC4DD'
+            }
         }
     )
     World.add(world, ball)
