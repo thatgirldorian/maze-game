@@ -1,8 +1,8 @@
 //allow Matter js objects to work in our app by destructuring
-const { Engine, Render, Runner, World, Bodies, Body } = Matter
+const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
 //create configuration variables for maze values
-const cells = 15
+const cells = 3
 
 const width = 600
 const height = 600
@@ -11,6 +11,9 @@ const unitLength = width / cells
 
 //create the properties
 const engine = Engine.create()
+//disable ball gravity
+engine.world.gravity.y = 0
+
 const { world } = engine
 const render = Render.create({
     element: document.body,
@@ -138,8 +141,9 @@ const verticals = Array(cells)
                 columnIndex * unitLength + unitLength / 2, 
                 rowIndex * unitLength + unitLength,
                 unitLength,
-                10,
+                5,
                 {
+                    label: 'wall',
                     isStatic: true
                 }
             )
@@ -157,9 +161,10 @@ const verticals = Array(cells)
             const wall = Bodies.rectangle(
                 columnIndex * unitLength + unitLength, 
                 rowIndex * unitLength + unitLength / 2,
-                10,
+                5,
                 unitLength,
                 {
+                    label: 'wall',
                     isStatic: true
                 }
             )
@@ -175,6 +180,7 @@ const verticals = Array(cells)
         unitLength * .7,
         unitLength * .7,
         {
+            label: "goal",
             isStatic: true
         }
     )
@@ -184,7 +190,10 @@ const verticals = Array(cells)
     const ball = Bodies.circle(
         unitLength / 2, 
         unitLength / 2, 
-        unitLength / 4
+        unitLength / 4, 
+        {
+            label: "ball"
+        }
     )
     World.add(world, ball)
 
@@ -193,8 +202,7 @@ const verticals = Array(cells)
 
         //get the velocity of the ball
         const { x, y } = ball.velocity
-
-        console.log(x, y)
+        // console.log(x, y)
 
         if (event.code === 'KeyW') { 
             Body.setVelocity(ball, { x, y: y - 5})
@@ -211,4 +219,24 @@ const verticals = Array(cells)
         if (event.code === 'KeyS') {
             Body.setVelocity(ball, { x: x + 5, y})
         }
+    })
+
+    //detect when a user wins the game
+    Events.on(engine, 'collisionStart', event => {
+        event.pairs.forEach( collision => {
+            //figure out which shape is which 
+            const labels = ['ball', 'goal']
+
+            if (labels.includes(collision.bodyA.label) &&
+                labels.includes(collision.bodyB.label)
+        ) {
+                //add a way to let the user know that they won
+                world.gravity.y = 1
+                world.bodies.forEach(body => {
+                    if (body.label === 'wall') { 
+                        Body.setStatic(body, false)
+                    }
+                })
+        }
+        })
     })
